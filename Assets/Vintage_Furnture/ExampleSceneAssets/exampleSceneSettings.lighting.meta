@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 26877db55af430d4fb77739df4e16d1c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 234830
+  packageName: Vintage Furniture PBR
+  packageVersion: 1.0
+  assetPath: Assets/Vintage_Furnture/ExampleSceneAssets/exampleSceneSettings.lighting
+  uploadId: 804448
