@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 5ad7e4916f3e1e54ebe1f13cee3102f9
+  - enabled: 0
+    path: Assets/CurSaveFile.unity
+    guid: 718b67b81782b794d80521c1398992ce
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c273c3c701f28694581ccdb495de00dc, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
