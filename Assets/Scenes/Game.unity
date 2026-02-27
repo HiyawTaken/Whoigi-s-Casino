@@ -4896,7 +4896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VRController
   moveSpeed: 7
   boostMultiplier: 2
-  inputSource: 5
+  inputSource: 4
   headTransform: {fileID: 220907602}
   gravity: -9.81
   jumpHeight: 1.5
