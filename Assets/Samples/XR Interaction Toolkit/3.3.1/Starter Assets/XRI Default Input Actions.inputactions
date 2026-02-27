@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "XRI Default Input Actions",
     "maps": [
         {
@@ -2130,6 +2131,17 @@
                     "name": "",
                     "id": "69580c32-8c9a-47d9-8b23-b53d760ca5da",
                     "path": "<KHRSimpleController>{RightHand}/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50ad51db-d72e-46b5-a67a-219d21e2a2c5",
+                    "path": "<QuestProTouchController>{RightHand}/{TriggerButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
