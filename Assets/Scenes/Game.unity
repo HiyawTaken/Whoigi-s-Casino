@@ -3822,6 +3822,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5896395455556193784, guid: 03e10a4cdd997cd49be9b73cc2bf7c80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1460448814}
+    - targetCorrespondingSourceObject: {fileID: 5896395455556193784, guid: 03e10a4cdd997cd49be9b73cc2bf7c80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1460448818}
   m_SourcePrefab: {fileID: 100100000, guid: 03e10a4cdd997cd49be9b73cc2bf7c80, type: 3}
 --- !u!1 &1460448810 stripped
 GameObject:
@@ -3845,11 +3848,32 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1460448818
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460448810}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1565245015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 6fc78d28f5603c241ae27d2d12370bee, type: 3}
@@ -4422,7 +4446,7 @@ Transform:
   m_GameObject: {fileID: 1837894344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4918,13 +4942,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &2038303040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4964,7 +4988,7 @@ Transform:
   m_GameObject: {fileID: 2038303037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.2, y: 6.42, z: 12.12}
+  m_LocalPosition: {x: 18.2, y: 8.26, z: 12.12}
   m_LocalScale: {x: 1.5, y: 4, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
