@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // Add this for VR Input
+using UnityEngine.XR;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,24 +9,34 @@ public class PauseMenu : MonoBehaviour
     [Header("UI Reference")]
     public GameObject pauseMenuUI;
 
-    [Header("VR Input Action")]
-    // This allows you to map a specific button (like the Menu button on Oculus/Index)
-    public InputActionProperty menuButton;
+    private InputDevice rightController;
+    private bool previousButtonState = false;
 
-    // Use this line instead of the old Input.GetKeyDown
+    void Start()
+    {
+        rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+    }
+
     void Update()
     {
-        // Check if the Escape key was pressed using the New Input System
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        // Re-acquire device if lost
+        if (!rightController.isValid)
         {
-            if (GameIsPaused)
+            rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        }
+
+        // A button on right controller
+        bool buttonPressed = false;
+        if (rightController.TryGetFeatureValue(CommonUsages.primaryButton, out buttonPressed))
+        {
+            if (buttonPressed && !previousButtonState)
             {
-                Resume();
+                if (GameIsPaused)
+                    Resume();
+                else
+                    Pause();
             }
-            else 
-            {
-                Pause();
-            }    
+            previousButtonState = buttonPressed;
         }
     }
 
@@ -35,37 +45,28 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        
-        // Optional: Unlock cursor if testing on PC
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     void Pause()
     {
-        // Position the menu in front of the player before showing it
         PositionMenuInFront();
-
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f; // This pauses physics and AI
+        Time.timeScale = 0f;
         GameIsPaused = true;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
-    // Helper to make sure the menu doesn't appear behind the player
     void PositionMenuInFront()
     {
-        Transform cameraTransform = Camera.main.transform;
-        pauseMenuUI.transform.position = cameraTransform.position + cameraTransform.forward * 2.0f; 
-        pauseMenuUI.transform.rotation = Quaternion.LookRotation(pauseMenuUI.transform.position - cameraTransform.position);
+        Transform cam = Camera.main.transform;
+        pauseMenuUI.transform.position = cam.position + cam.forward * 2.0f;
+        // Face the player: menu looks back toward camera
+        pauseMenuUI.transform.rotation = Quaternion.LookRotation(cam.position - pauseMenuUI.transform.position);
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu"); // Ensure your scene name matches exactly
+        SceneManager.LoadScene("Menu");
     }
 
     public void QuitGame()
