@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     [Header("UI Reference")]
     public GameObject pauseMenuUI;
 
-    private InputDevice rightController;
+    private UnityEngine.XR.InputDevice rightController;
     private bool previousButtonState = false;
 
     void Start()
@@ -27,17 +28,28 @@ public class PauseMenu : MonoBehaviour
 
         // A button on right controller
         bool buttonPressed = false;
-        if (rightController.TryGetFeatureValue(CommonUsages.primaryButton, out buttonPressed))
+        if (rightController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out buttonPressed))
         {
             if (buttonPressed && !previousButtonState)
             {
-                if (GameIsPaused)
-                    Resume();
-                else
-                    Pause();
+                TogglePause();
             }
             previousButtonState = buttonPressed;
         }
+
+        // Keyboard ESC fallback (New Input System)
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            TogglePause();
+        }
+    }
+
+    private void TogglePause()
+    {
+        if (GameIsPaused)
+            Resume();
+        else
+            Pause();
     }
 
     public void Resume()
@@ -59,8 +71,7 @@ public class PauseMenu : MonoBehaviour
     {
         Transform cam = Camera.main.transform;
         pauseMenuUI.transform.position = cam.position + cam.forward * 2.0f;
-        // Face the player: menu looks back toward camera
-        pauseMenuUI.transform.rotation = Quaternion.LookRotation(cam.position - pauseMenuUI.transform.position);
+        pauseMenuUI.transform.rotation = Quaternion.LookRotation(pauseMenuUI.transform.position - cam.position);
     }
 
     public void LoadMenu()
