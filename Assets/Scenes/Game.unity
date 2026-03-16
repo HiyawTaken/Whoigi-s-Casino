@@ -913,13 +913,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98987840}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.012699127, y: -0.49458, z: -0.07234192}
+  m_LocalRotation: {x: -0.5539957, y: 0.43941867, z: -0.43941867, w: 0.5539957}
+  m_LocalPosition: {x: -0.012699303, y: -0.49457994, z: -0.072342105}
   m_LocalScale: {x: 1, y: 0.27, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1888792248}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -13.158, y: 90, z: -90}
 --- !u!136 &98987842
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1218,10 +1218,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff1e95f460d7d7f4fa6481034d25e41c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotMachineController
-  reels: []
+  reelRenderers:
+  - {fileID: 98987843}
+  - {fileID: 2142705697}
+  - {fileID: 1772615302}
   spinDuration: 3
-  leverHandle: {fileID: 0}
+  leverHandle: {fileID: 875218411}
   pullThreshold: 55
+  spinCost: 1
+  payouts: 0a000000190000006400000032000000
   onSpinStart:
     m_PersistentCalls:
       m_Calls: []
@@ -4620,13 +4625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff1e95f460d7d7f4fa6481034d25e41c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotMachineController
-  reels:
-  - {fileID: 98987841}
-  - {fileID: 2142705695}
-  - {fileID: 1772615300}
+  reelRenderers: []
   spinDuration: 3
   leverHandle: {fileID: 1378391517}
   pullThreshold: 55
+  spinCost: 1
+  payouts: 0a000000190000006400000032000000
   onSpinStart:
     m_PersistentCalls:
       m_Calls: []
@@ -5189,13 +5193,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772615299}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.012699127, y: -0.49458, z: 1.2353973}
+  m_LocalRotation: {x: -0.53325385, y: 0.46437097, z: -0.46437097, w: 0.53325385}
+  m_LocalPosition: {x: -0.012699424, y: -0.49457994, z: 1.2353976}
   m_LocalScale: {x: 1, y: 0.27, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1888792248}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -172.1, y: -90, z: 90}
 --- !u!136 &1772615301
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5244,7 +5248,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 87564e7417d9eb3438caaade838baade, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6236,13 +6240,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142705694}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.012699127, y: -0.49458, z: 0.55739975}
+  m_LocalRotation: {x: -0.53719527, y: 0.45980576, z: -0.45980576, w: 0.53719527}
+  m_LocalPosition: {x: -0.0126993675, y: -0.49457994, z: 0.5574}
   m_LocalScale: {x: 1, y: 0.27, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1888792248}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -8.877, y: 90, z: -90}
 --- !u!136 &2142705696
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6291,7 +6295,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 87564e7417d9eb3438caaade838baade, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

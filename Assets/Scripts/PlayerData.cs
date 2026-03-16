@@ -11,6 +11,8 @@ public class PlayerData : MonoBehaviour
 
     private int _money; 
     private int _tokens;
+    // Add this line right below your private variables in PlayerData
+    public int CurrentTokens => _tokens;
 
     void Awake() {
         if (Instance == null) Instance = this;

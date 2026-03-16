@@ -5,12 +5,17 @@ using UnityEngine.Events;
 public class SlotMachineController : MonoBehaviour
 {
     [Header("Reel Settings")]
-    public Transform[] reels;
+    public Renderer[] reelRenderers; 
     public float spinDuration = 3f;
     
     [Header("Lever Settings")]
     public Transform leverHandle;
-    public float pullThreshold = 55f; // Trigger when lever hits 55 degrees
+    public float pullThreshold = 55f; 
+
+    [Header("Economy")]
+    public int spinCost = 1; // Costs 1 Token to spin
+    // Payout amounts for: [0] Mushroom, [1] Fire Flower, [2] Star, [3] Leaf
+    public int[] payouts = { 10, 25, 100, 50 }; 
     
     [Header("Events")]
     public UnityEvent onSpinStart;
@@ -18,19 +23,40 @@ public class SlotMachineController : MonoBehaviour
 
     private bool isSpinning = false;
     private bool leverReady = true;
+    private string textureProp = "_BaseMap"; 
+
+    void Start()
+    {
+        if (reelRenderers.Length > 0 && !reelRenderers[0].material.HasProperty("_BaseMap"))
+        {
+            textureProp = "_MainTex";
+        }
+    }
 
     void Update()
     {
-        // Check lever rotation to trigger spin
         float angle = leverHandle.localEulerAngles.x; 
-        // Note: Depending on your model, you might need to normalize this angle
+        if (angle > 180) angle -= 360;
+
         if (angle > pullThreshold && leverReady && !isSpinning)
         {
-            StartCoroutine(SpinReels());
-            leverReady = false; // Prevent double-triggering
+            // NEW: Check if player can afford the spin
+            if (PlayerData.Instance != null && PlayerData.Instance.CurrentTokens >= spinCost)
+            {
+                // Deduct the token
+                PlayerData.Instance.AddTokens(-spinCost);
+                
+                StartCoroutine(SpinReels());
+                leverReady = false; 
+            }
+            else
+            {
+                Debug.Log("Not enough tokens to spin!");
+                // You could trigger an "Error" sound here later
+            }
         }
         
-        if (angle < 5f) leverReady = true; // Reset when lever is back up
+        if (angle < 5f) leverReady = true; 
     }
 
     IEnumerator SpinReels()
@@ -38,34 +64,43 @@ public class SlotMachineController : MonoBehaviour
         isSpinning = true;
         onSpinStart.Invoke();
 
-        // 1. Determine Results (0-9 for 10 symbols)
-        int[] results = { Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10) };
+        int[] results = { Random.Range(0, 4), Random.Range(0, 4), Random.Range(0, 4) };
+        float[] currentOffsets = new float[reelRenderers.Length];
 
         float elapsed = 0;
+        float speed = 10f; 
+
         while (elapsed < spinDuration)
         {
-            for (int i = 0; i < reels.Length; i++)
-            {
-                // Spin faster at start, slower at end
-                float speed = Mathf.Lerp(1500f, 200f, elapsed / spinDuration);
-                reels[i].Rotate(Vector3.up * speed * Time.deltaTime);
-            }
             elapsed += Time.deltaTime;
+            for (int i = 0; i < reelRenderers.Length; i++)
+            {
+                currentOffsets[i] += Time.deltaTime * speed;
+                reelRenderers[i].material.SetTextureOffset(textureProp, new Vector2(currentOffsets[i], 0));
+            }
             yield return null;
         }
 
-        // 2. Snap to final positions
-        for (int i = 0; i < reels.Length; i++)
+        for (int i = 0; i < reelRenderers.Length; i++)
         {
-            float finalAngle = results[i] * 36f; // 360 / 10 symbols = 36 degrees
-            reels[i].localEulerAngles = new Vector3(0, finalAngle, 0);
-            // Add a "thud" sound or haptic here
+            float finalOffset = results[i] * 0.25f; 
+            reelRenderers[i].material.SetTextureOffset(textureProp, new Vector2(finalOffset, 0));
             yield return new WaitForSeconds(0.3f); 
         }
 
-        // 3. Check for Win
+        // NEW: Check Win and Award Money
         if (results[0] == results[1] && results[1] == results[2])
         {
+            int winningIconIndex = results[0];
+            int wonAmount = payouts[winningIconIndex];
+
+            Debug.Log($"JACKPOT! Landed on icon {winningIconIndex}. You won ${wonAmount}!");
+            
+            if (PlayerData.Instance != null)
+            {
+                PlayerData.Instance.AddMoney(wonAmount);
+            }
+            
             onJackpot.Invoke();
         }
 
