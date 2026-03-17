@@ -1497,7 +1497,7 @@ Transform:
   m_GameObject: {fileID: 220907601}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: -1.403}
+  m_LocalPosition: {x: 0, y: 3, z: -1.403}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5178,6 +5178,7 @@ GameObject:
   - component: {fileID: 1772615303}
   - component: {fileID: 1772615302}
   - component: {fileID: 1772615301}
+  - component: {fileID: 1772615304}
   m_Layer: 0
   m_Name: reel3
   m_TagString: Untagged
@@ -5280,6 +5281,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772615299}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1772615304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772615299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53c793668bed604698f6caaabceae1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReelSpinner
+  spinSpeed: 8
 --- !u!1 &1837894344
 GameObject:
   m_ObjectHideFlags: 0
@@ -5305,7 +5319,7 @@ Transform:
   m_GameObject: {fileID: 1837894344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5813,7 +5827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VRController
   moveSpeed: 7
   boostMultiplier: 2
-  inputSource: 4
+  inputSource: 5
   headTransform: {fileID: 220907602}
   gravity: -9.81
   jumpHeight: 1.5
@@ -5835,7 +5849,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
+  m_Height: 4
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -5881,7 +5895,7 @@ Transform:
   m_GameObject: {fileID: 2038303037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.2, y: 8.26, z: 12.12}
+  m_LocalPosition: {x: 18.2, y: 11.9, z: 12.12}
   m_LocalScale: {x: 1.5, y: 4, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5910,7 +5924,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &2082231632 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 8014eee0b0c881446bddd43302318047, type: 3}
@@ -6225,6 +6239,7 @@ GameObject:
   - component: {fileID: 2142705698}
   - component: {fileID: 2142705697}
   - component: {fileID: 2142705696}
+  - component: {fileID: 2142705699}
   m_Layer: 0
   m_Name: reel22
   m_TagString: Untagged
@@ -6327,6 +6342,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142705694}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2142705699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142705694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53c793668bed604698f6caaabceae1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReelSpinner
+  spinSpeed: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
