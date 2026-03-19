@@ -3,19 +3,30 @@ using TMPro;
 
 public class InventoryHUD : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI moneyText; // Updated reference
+    [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI tokensText;
 
-    void OnEnable() {
+    void OnEnable()
+    {
         PlayerData.OnMoneyChanged += UpdateMoneyUI;
         PlayerData.OnTokensChanged += UpdateTokensUI;
     }
 
-    void OnDisable() {
+    void OnDisable()
+    {
         PlayerData.OnMoneyChanged -= UpdateMoneyUI;
         PlayerData.OnTokensChanged -= UpdateTokensUI;
     }
 
-    void UpdateMoneyUI(int val) => moneyText.text = $"Money: ${val}"; // Added a '$' for flair
+    // --- ADD THIS START METHOD ---
+    void Start()
+    {
+        // Fetch the current static values immediately when the scene loads
+        // so the UI isn't blank before the first event fires!
+        UpdateMoneyUI(PlayerData.money);
+        UpdateTokensUI(PlayerData.tokens);
+    }
+
+    void UpdateMoneyUI(int val) => moneyText.text = $"Money: ${val}";
     void UpdateTokensUI(int val) => tokensText.text = $"Tokens: {val}";
 }
