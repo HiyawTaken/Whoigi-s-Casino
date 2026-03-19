@@ -97,4 +97,15 @@ public class SlotMachineController : MonoBehaviour
 
             Debug.Log($"JACKPOT! Landed on icon {winningIconIndex}. You won ${wonAmount}!");
 
-            if
+            if (PlayerData.Instance != null)
+            {
+                // AddMoney is still an instance method, so this works perfectly.
+                PlayerData.Instance.AddMoney(wonAmount);
+            }
+
+            onJackpot.Invoke();
+        }
+
+        isSpinning = false;
+    }
+}
