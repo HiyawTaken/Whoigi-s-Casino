@@ -1,18 +1,24 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required for changing scenes
+using UnityEngine.SceneManagement;
 
 public class SceneTransitionDoor : MonoBehaviour
 {
-    [Tooltip("Type the exact name of the scene you want to load")]
     [SerializeField] private string sceneToLoad = "Forest";
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object entering the trigger has the "Player" tag
+        // 1. This will print a message to the Console no matter WHAT touches the door
+        Debug.Log($"<color=yellow>DOOR TOUCHED BY:</color> {other.gameObject.name} | <color=orange>TAG:</color> {other.tag}");
+
+        // 2. This checks for the Player tag
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the door. Loading scene: " + sceneToLoad);
+            Debug.Log("<color=green>Player detected! Loading scene...</color>");
             SceneManager.LoadScene(sceneToLoad);
+        }
+        else
+        {
+            Debug.Log("<color=red>Touch detected, but it wasn't the Player tag.</color>");
         }
     }
 }
