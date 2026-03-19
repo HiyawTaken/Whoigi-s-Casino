@@ -1,14 +1,19 @@
 using UnityEngine;
+using UnityEngine.XR;
+using System.Collections.Generic;
 
 public class ReelSpinner : MonoBehaviour
 {
     [Header("Settings")]
     public float spinSpeed = 8f;
-    
+
     private bool isSpinning = false;
     private float currentOffset = 0f;
     private Material reelMaterial;
-    private string texturePropertyName = "_BaseMap"; 
+    private string texturePropertyName = "_BaseMap";
+
+    private InputDevice rightController;
+    private bool wasPressed = false;
 
     void Start()
     {
@@ -16,7 +21,6 @@ public class ReelSpinner : MonoBehaviour
         if (rend != null)
         {
             reelMaterial = rend.material;
-            // Check for URP or Standard shader
             if (!reelMaterial.HasProperty("_BaseMap") && reelMaterial.HasProperty("_MainTex"))
             {
                 texturePropertyName = "_MainTex";
@@ -26,17 +30,29 @@ public class ReelSpinner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!rightController.isValid)
+        {
+            var devices = new List<InputDevice>();
+            InputDevices.GetDevicesWithCharacteristics(
+                InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
+            if (devices.Count > 0) rightController = devices[0];
+        }
+
+        rightController.TryGetFeatureValue(CommonUsages.secondaryButton, out bool bButton); // B button
+
+        bool pressed = Input.GetKeyDown(KeyCode.Space) || bButton;
+
+        if (pressed && !wasPressed)
         {
             isSpinning = !isSpinning;
-
             if (!isSpinning)
             {
-                // Snap to nearest 0.25 on the X axis
                 currentOffset = Mathf.Round(currentOffset * 4f) / 4f;
                 UpdateShader(currentOffset);
             }
         }
+
+        wasPressed = bButton;
 
         if (isSpinning)
         {
@@ -49,7 +65,6 @@ public class ReelSpinner : MonoBehaviour
     {
         if (reelMaterial != null)
         {
-            // SWAPPED: Now applying the offset to X (the first value)
             reelMaterial.SetTextureOffset(texturePropertyName, new Vector2(offset, 0));
         }
     }
