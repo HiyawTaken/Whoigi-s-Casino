@@ -7,19 +7,22 @@ public class SlotMachineController : MonoBehaviour
     [Header("Reel Settings")]
     public Renderer[] reelRenderers;
     public float spinDuration = 3f;
+    public int iconCount = 4; // Mushroom, Fire Flower, Star, Leaf
+    public float spinSpeed = 10f;
 
     [Header("Lever Settings")]
     public Transform leverHandle;
     public float pullThreshold = 55f;
 
     [Header("Economy")]
-    public int spinCost = 1; // Costs 1 Token to spin
+    public int spinCost = 1;
     // Payout amounts for: [0] Mushroom, [1] Fire Flower, [2] Star, [3] Leaf
     public int[] payouts = { 10, 25, 100, 50 };
 
     [Header("Events")]
     public UnityEvent onSpinStart;
     public UnityEvent onJackpot;
+    public UnityEvent onNoFunds;
 
     private bool isSpinning = false;
     private bool leverReady = true;
@@ -27,6 +30,7 @@ public class SlotMachineController : MonoBehaviour
 
     void Start()
     {
+        // Detect if using URP (_BaseMap) or Standard (_MainTex)
         if (reelRenderers.Length > 0 && !reelRenderers[0].material.HasProperty("_BaseMap"))
         {
             textureProp = "_MainTex";
@@ -35,29 +39,39 @@ public class SlotMachineController : MonoBehaviour
 
     void Update()
     {
-        float angle = leverHandle.localEulerAngles.x;
+        // CHANGED: Reading the Z axis instead of X
+        float angle = leverHandle.localEulerAngles.z;
+
+        // Normalize angle to -180 to 180 range
         if (angle > 180) angle -= 360;
 
-        if (angle > pullThreshold && leverReady && !isSpinning)
+        // Use Mathf.Abs so it works regardless of pull direction (+ or -)
+        if (Mathf.Abs(angle) > pullThreshold && leverReady && !isSpinning)
         {
-            // FIX: Changed PlayerData.Instance.CurrentTokens to PlayerData.tokens
-            // Because 'tokens' is static, we can read it directly from the class name!
-            if (PlayerData.Instance != null && PlayerData.tokens >= spinCost)
-            {
-                // Deduct the token (AddTokens is still an instance method, so this stays the same)
-                PlayerData.Instance.AddTokens(-spinCost);
-
-                StartCoroutine(SpinReels());
-                leverReady = false;
-            }
-            else
-            {
-                Debug.Log("Not enough tokens to spin!");
-                // You could trigger an "Error" sound here later
-            }
+            AttemptSpin();
+            leverReady = false;
         }
 
-        if (angle < 5f) leverReady = true;
+        // Reset readiness when the lever is back near the top (0 degrees)
+        if (Mathf.Abs(angle) < 5f)
+        {
+            leverReady = true;
+        }
+    }
+
+    void AttemptSpin()
+    {
+        // Check PlayerData for tokens
+        if (PlayerData.Instance != null && PlayerData.tokens >= spinCost)
+        {
+            PlayerData.Instance.AddTokens(-spinCost);
+            StartCoroutine(SpinReels());
+        }
+        else
+        {
+            Debug.Log("Not enough tokens to spin!");
+            onNoFunds.Invoke();
+        }
     }
 
     IEnumerator SpinReels()
@@ -65,31 +79,47 @@ public class SlotMachineController : MonoBehaviour
         isSpinning = true;
         onSpinStart.Invoke();
 
-        int[] results = { Random.Range(0, 4), Random.Range(0, 4), Random.Range(0, 4) };
+        // Determine results (indices 0-3)
+        int[] results = { Random.Range(0, iconCount), Random.Range(0, iconCount), Random.Range(0, iconCount) };
         float[] currentOffsets = new float[reelRenderers.Length];
 
-        float elapsed = 0;
-        float speed = 10f;
+        // Initialize offsets from current material position to prevent "jumping"
+        for (int i = 0; i < reelRenderers.Length; i++)
+        {
+            currentOffsets[i] = reelRenderers[i].material.GetTextureOffset(textureProp).x;
+        }
 
+        float elapsed = 0;
+
+        // Fast Spinning Phase
         while (elapsed < spinDuration)
         {
             elapsed += Time.deltaTime;
             for (int i = 0; i < reelRenderers.Length; i++)
             {
-                currentOffsets[i] += Time.deltaTime * speed;
-                reelRenderers[i].material.SetTextureOffset(textureProp, new Vector2(currentOffsets[i], 0));
+                currentOffsets[i] += Time.deltaTime * spinSpeed;
+                float wrappedOffset = currentOffsets[i] % 1.0f; // Keep offset between 0-1
+                reelRenderers[i].material.SetTextureOffset(textureProp, new Vector2(wrappedOffset, 0));
             }
             yield return null;
         }
 
+        // Individual Stopping Phase
+        float stepSize = 1f / iconCount;
         for (int i = 0; i < reelRenderers.Length; i++)
         {
-            float finalOffset = results[i] * 0.25f;
+            float finalOffset = results[i] * stepSize;
             reelRenderers[i].material.SetTextureOffset(textureProp, new Vector2(finalOffset, 0));
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.4f); // Delay between each reel stop
         }
 
-        // Check Win and Award Money
+        CheckResults(results);
+        isSpinning = false;
+    }
+
+    void CheckResults(int[] results)
+    {
+        // Check for 3-of-a-kind
         if (results[0] == results[1] && results[1] == results[2])
         {
             int winningIconIndex = results[0];
@@ -99,13 +129,10 @@ public class SlotMachineController : MonoBehaviour
 
             if (PlayerData.Instance != null)
             {
-                // AddMoney is still an instance method, so this works perfectly.
                 PlayerData.Instance.AddMoney(wonAmount);
             }
 
             onJackpot.Invoke();
         }
-
-        isSpinning = false;
     }
 }
