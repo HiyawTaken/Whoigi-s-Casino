@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.XR;
-using System.Collections.Generic;
 
 public class ReelSpinner : MonoBehaviour
 {
@@ -12,15 +10,13 @@ public class ReelSpinner : MonoBehaviour
     private Material reelMaterial;
     private string texturePropertyName = "_BaseMap";
 
-    private InputDevice rightController;
-    private bool wasPressed = false;
-
     void Start()
     {
         Renderer rend = GetComponent<Renderer>();
         if (rend != null)
         {
             reelMaterial = rend.material;
+            // Support for both URP (_BaseMap) and Standard (_MainTex) shaders
             if (!reelMaterial.HasProperty("_BaseMap") && reelMaterial.HasProperty("_MainTex"))
             {
                 texturePropertyName = "_MainTex";
@@ -28,32 +24,21 @@ public class ReelSpinner : MonoBehaviour
         }
     }
 
+    // This is the function your Lever will call
+    public void ToggleSpin()
+    {
+        isSpinning = !isSpinning;
+
+        if (!isSpinning)
+        {
+            // Snaps to the nearest icon (assuming 4 icons on the strip)
+            currentOffset = Mathf.Round(currentOffset * 4f) / 4f;
+            UpdateShader(currentOffset);
+        }
+    }
+
     void Update()
     {
-        if (!rightController.isValid)
-        {
-            var devices = new List<InputDevice>();
-            InputDevices.GetDevicesWithCharacteristics(
-                InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-            if (devices.Count > 0) rightController = devices[0];
-        }
-
-        rightController.TryGetFeatureValue(CommonUsages.secondaryButton, out bool bButton); // B button
-
-        bool pressed = Input.GetKeyDown(KeyCode.Space) || bButton;
-
-        if (pressed && !wasPressed)
-        {
-            isSpinning = !isSpinning;
-            if (!isSpinning)
-            {
-                currentOffset = Mathf.Round(currentOffset * 4f) / 4f;
-                UpdateShader(currentOffset);
-            }
-        }
-
-        wasPressed = bButton;
-
         if (isSpinning)
         {
             currentOffset += Time.deltaTime * spinSpeed;
@@ -65,6 +50,7 @@ public class ReelSpinner : MonoBehaviour
     {
         if (reelMaterial != null)
         {
+            // Note: If icons are vertical, use Vector2(0, offset) instead
             reelMaterial.SetTextureOffset(texturePropertyName, new Vector2(offset, 0));
         }
     }
