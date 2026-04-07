@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find C:/Users/mygol/Documents/GitHub/Whoigi-s-Casino -type f -name *.cs)"
+    ]
+  }
+}
