@@ -3791,8 +3791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionDoor
   sceneToLoad: Forest
-  doorSFX: {fileID: 0}
-  sfxDelay: 0.8
+  doorSFX: {fileID: 8300000, guid: a5fd4bd75a6c0df48a70b98e42f08692, type: 3}
+  sfxDelay: 0
 --- !u!65 &1408116496
 BoxCollider:
   m_ObjectHideFlags: 0
