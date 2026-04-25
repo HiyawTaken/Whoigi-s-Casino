@@ -1,226 +1,100 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Installs XR Hands hand-tracking visuals (Left/Right Hand Tracking prefabs)
-// under Camera Offset — the exact setup from "2023 Unity VR Basics – XR Hands".
-//
-// The XRHandSubsystem starts automatically through OpenXR; no extra manager
-// component is required. Just drop the two prefabs under Camera Offset.
+/// <summary>
+/// Backward-compatible menu wrapper for the project hand setup.
+/// The active implementation is controller-driven Meta/Quest hands.
+/// </summary>
 public static class VRHandFixer
 {
-    private const string LeftHandTrackingGuid  = "b3ed8a0a703ebd34a9e44ed3d9f1fcf6";
-    private const string RightHandTrackingGuid = "3f7511fbc40ae7a4b89c3298a3de199d";
-    private const string ContainerName         = "__XRHands";
-
-    private static readonly string[] XROriginNames =
-    {
-        "XR Origin (XR Rig)",
-        "XR Origin (VR)",
-        "XR Origin",
-        "XRRig",
-        "XR Rig",
-        "Complete XR Origin Set Up Variant",
-    };
-
-    // ────────────────────────────────────────────────────────────────────────
-
-    [MenuItem("Tools/VR Hands/1 - Install Hand Visualizers (XR Hands)")]
+    [MenuItem("Tools/VR Hands/Install Controller Hands")]
     public static void Install()
     {
-        // ── 1. Locate Camera Offset ──────────────────────────────────────
-        var cameraOffset = FindInScene("Camera Offset");
-        if (cameraOffset == null)
-        {
-            Debug.LogError("VRHandFixer: 'Camera Offset' not found in active scene.");
-            return;
-        }
-
-        // ── 2. Remove stale pinch pointers / previous fixer attempts ─────
-        int nuked = NukePinchAndLeftovers();
-
-        // ── 3. Load hand prefabs ─────────────────────────────────────────
-        var leftPrefab  = AssetDatabase.LoadAssetAtPath<GameObject>(
-                              AssetDatabase.GUIDToAssetPath(LeftHandTrackingGuid));
-        var rightPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-                              AssetDatabase.GUIDToAssetPath(RightHandTrackingGuid));
-
-        if (leftPrefab == null || rightPrefab == null)
-        {
-            Debug.LogError(
-                "VRHandFixer: Hand prefabs missing. " +
-                $"Left={leftPrefab != null} Right={rightPrefab != null}. " +
-                "Import the HandVisualizer sample via " +
-                "Package Manager > XR Hands > Samples > Hand Visualizer.");
-            return;
-        }
-
-        // ── 4. Build / refresh container under Camera Offset ─────────────
-        var prev = cameraOffset.transform.Find(ContainerName);
-        if (prev != null) Object.DestroyImmediate(prev.gameObject);
-
-        var container = new GameObject(ContainerName);
-        container.transform.SetParent(cameraOffset.transform, false);
-        container.transform.localPosition = Vector3.zero;
-        container.transform.localRotation = Quaternion.identity;
-        container.transform.localScale    = Vector3.one;
-
-        var left  = (GameObject)PrefabUtility.InstantiatePrefab(leftPrefab,  container.transform);
-        var right = (GameObject)PrefabUtility.InstantiatePrefab(rightPrefab, container.transform);
-
-        foreach (var go in new[] { left, right })
-        {
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale    = Vector3.one;
-            go.SetActive(true);
-        }
-
-        MarkDirty();
-        Debug.Log(
-            $"VRHandFixer: Done. Nuked {nuked} stale object(s). " +
-            "Left Hand Tracking + Right Hand Tracking installed under Camera Offset. " +
-            "Press Play with headset connected (hand tracking enabled in OpenXR settings).");
+        ControllerHandsInstaller.InstallActiveSceneFromMenu();
     }
 
-    // ────────────────────────────────────────────────────────────────────────
-
-    [MenuItem("Tools/VR Hands/2 - Nuke Pinch Pointer + Leftovers Only")]
-    public static void NukeOnly()
+    [MenuItem("Tools/VR Hands/Install Controller Hands In Build Scenes")]
+    public static void InstallAllBuildScenes()
     {
-        int n = NukePinchAndLeftovers();
-        MarkDirty();
-        Debug.Log($"VRHandFixer: Nuked {n} object(s).");
+        ControllerHandsInstaller.InstallBuildScenesFromMenu();
     }
 
-    [MenuItem("Tools/VR Hands/3 - Uninstall Hand Visualizers")]
+    [MenuItem("Tools/VR Hands/Uninstall Controller Hands")]
     public static void Uninstall()
     {
-        var cameraOffset = FindInScene("Camera Offset");
-        if (cameraOffset != null)
-        {
-            foreach (var name in new[] { ContainerName, "__MetaHands", "__HandVisual" })
-            {
-                var c = cameraOffset.transform.Find(name);
-                if (c != null) Object.DestroyImmediate(c.gameObject);
-            }
-        }
-        MarkDirty();
-        Debug.Log("VRHandFixer: Uninstalled.");
+        ControllerHandsInstaller.UninstallActiveSceneFromMenu();
     }
 
     [MenuItem("Tools/VR Hands/Diagnose")]
     public static void Diagnose()
     {
-        // Camera Offset children
-        var co = FindInScene("Camera Offset");
-        if (co != null)
+        var scene = SceneManager.GetActiveScene();
+        var cameraOffset = FindInScene("Camera Offset");
+
+        if (cameraOffset == null)
         {
-            Debug.Log($"[Diag] Camera Offset children ({co.transform.childCount}):");
-            foreach (Transform t in co.transform)
-                Debug.Log($"[Diag]   '{t.name}'  active={t.gameObject.activeSelf}");
-        }
-        else
-        {
-            Debug.LogError("[Diag] 'Camera Offset' NOT found.");
+            Debug.LogError("[VRHandFixer] Camera Offset not found in active scene.");
+            return;
         }
 
-        // Hand Tracking prefab instances in scene
-        var hands = SceneManager.GetActiveScene().GetRootGameObjects()
-            .SelectMany(g => g.GetComponentsInChildren<Transform>(true))
-            .Where(t => t.name.Contains("Hand Tracking"))
+        Debug.Log($"[VRHandFixer] Camera Offset children ({cameraOffset.transform.childCount}):");
+        foreach (Transform child in cameraOffset.transform)
+            Debug.Log($"[VRHandFixer]   {child.name} active={child.gameObject.activeSelf}");
+
+        var controllerHands = scene.GetRootGameObjects()
+            .SelectMany(root => root.GetComponentsInChildren<ControllerVisual>(true))
             .ToList();
-        Debug.Log($"[Diag] Hand Tracking instances in scene: {hands.Count}");
-        foreach (var h in hands)
-            Debug.Log($"[Diag]   '{h.GetFullPath()}'  active={h.gameObject.activeInHierarchy}");
 
-        // XR Origin
-        foreach (var name in XROriginNames)
+        Debug.Log($"[VRHandFixer] ControllerVisual instances: {controllerHands.Count}");
+        foreach (ControllerVisual hand in controllerHands)
         {
-            var go = FindInScene(name);
-            if (go != null) Debug.Log($"[Diag] XR Origin found: '{go.name}'");
-        }
-    }
-
-    // ────────────────────────────────────────────────────────────────────────
-    // Helpers
-    // ────────────────────────────────────────────────────────────────────────
-
-    private static int NukePinchAndLeftovers()
-    {
-        int n = 0;
-        var targets = new List<GameObject>();
-
-        foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
-        {
-            foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
-            {
-                if (t == null) continue;
-                var tName = t.name;
-                if (tName.Contains("Pinch_Pointer") ||
-                    tName == "Pinch Pointer"         ||
-                    tName == "__MetaHands"            ||
-                    tName == "__HandVisual"           ||
-                    tName == "OVRManager")
-                {
-                    targets.Add(t.gameObject);
-                }
-            }
+            string side = hand.isLeftHand ? "Left" : "Right";
+            Debug.Log($"[VRHandFixer]   {side}: {GetFullPath(hand.transform)} model={(hand.modelRoot != null ? hand.modelRoot.name : "<runtime>")}");
         }
 
-        foreach (var go in targets.Distinct())
-        {
-            if (go == null) continue;
-            Debug.Log($"VRHandFixer: destroying '{go.name}' under " +
-                      $"'{(go.transform.parent != null ? go.transform.parent.name : "<root>")}'");
-            Object.DestroyImmediate(go);
-            n++;
-        }
+        var grabbers = scene.GetRootGameObjects()
+            .SelectMany(root => root.GetComponentsInChildren<ControllerGrabber>(true))
+            .ToList();
 
-        // Suppress stray controller arc LineRenderers.
-        foreach (var side in new[] { "Left Controller", "Right Controller" })
-        {
-            var c = FindInScene(side);
-            if (c == null) continue;
-            foreach (var lr in c.GetComponentsInChildren<LineRenderer>(true))
-                lr.enabled = false;
-        }
-
-        return n;
+        Debug.Log($"[VRHandFixer] ControllerGrabber instances: {grabbers.Count}");
+        foreach (ControllerGrabber grabber in grabbers)
+            Debug.Log($"[VRHandFixer]   {grabber.inputSource}: {GetFullPath(grabber.transform)} radius={grabber.grabRadius}");
     }
 
     private static GameObject FindInScene(string name)
     {
-        foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
+        foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
         {
-            var t = FindRecursive(root.transform, name);
-            if (t != null) return t.gameObject;
+            Transform found = FindRecursive(root.transform, name);
+            if (found != null)
+                return found.gameObject;
         }
+
         return null;
     }
 
-    private static Transform FindRecursive(Transform t, string name)
+    private static Transform FindRecursive(Transform transform, string name)
     {
-        if (t.name == name) return t;
-        for (int i = 0; i < t.childCount; i++)
+        if (transform.name == name)
+            return transform;
+
+        for (int i = 0; i < transform.childCount; i++)
         {
-            var f = FindRecursive(t.GetChild(i), name);
-            if (f != null) return f;
+            Transform found = FindRecursive(transform.GetChild(i), name);
+            if (found != null)
+                return found;
         }
+
         return null;
     }
 
-    private static void MarkDirty() =>
-        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-}
-
-internal static class TransformPathExt
-{
-    public static string GetFullPath(this Transform t)
+    private static string GetFullPath(Transform transform)
     {
-        if (t.parent == null) return "/" + t.name;
-        return t.parent.GetFullPath() + "/" + t.name;
+        if (transform.parent == null)
+            return "/" + transform.name;
+
+        return GetFullPath(transform.parent) + "/" + transform.name;
     }
 }

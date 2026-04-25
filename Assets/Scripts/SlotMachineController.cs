@@ -74,6 +74,15 @@ public class SlotMachineController : MonoBehaviour
         }
     }
 
+    public void PullLever()
+    {
+        if (!leverReady || isSpinning)
+            return;
+
+        AttemptSpin();
+        leverReady = false;
+    }
+
     IEnumerator SpinReels()
     {
         isSpinning = true;
