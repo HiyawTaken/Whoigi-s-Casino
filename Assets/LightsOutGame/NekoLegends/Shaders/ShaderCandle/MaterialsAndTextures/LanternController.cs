@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class LanternController : MonoBehaviour 
 {
     public bool isLit;
@@ -7,10 +8,66 @@ public class LanternController : MonoBehaviour
     public Material litMaterial;   // Material with emission
     public Material unlitMaterial; // Standard material
 
+    private Renderer cachedRenderer;
+
+    private void Awake()
+    {
+        RefreshVisualState();
+    }
+
     public void ToggleLantern() 
     {
-        isLit = !isLit;
-        pointLight.SetActive(isLit);
-        GetComponent<Renderer>().material = isLit ? litMaterial : unlitMaterial;
+        SetLit(!isLit);
+    }
+
+    public void SetLit(bool lit)
+    {
+        isLit = lit;
+        RefreshVisualState();
+    }
+
+    public void RefreshVisualState()
+    {
+        if (pointLight != null)
+        {
+            pointLight.SetActive(isLit);
+        }
+
+        Material targetMaterial = isLit ? litMaterial : unlitMaterial;
+        if (targetMaterial == null)
+        {
+            return;
+        }
+
+        Renderer renderer = GetTargetRenderer();
+        if (renderer == null)
+        {
+            return;
+        }
+
+        renderer.enabled = true;
+
+        if (Application.isPlaying)
+        {
+            renderer.material = targetMaterial;
+        }
+        else
+        {
+            renderer.sharedMaterial = targetMaterial;
+        }
+    }
+
+    private Renderer GetTargetRenderer()
+    {
+        if (cachedRenderer == null)
+        {
+            cachedRenderer = GetComponent<Renderer>();
+            if (cachedRenderer == null)
+            {
+                cachedRenderer = GetComponentInChildren<Renderer>(true);
+            }
+        }
+
+        return cachedRenderer;
     }
 }

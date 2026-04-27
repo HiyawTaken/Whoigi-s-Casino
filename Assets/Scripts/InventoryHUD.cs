@@ -8,8 +8,11 @@ public class InventoryHUD : MonoBehaviour
 
     void OnEnable()
     {
+        PlayerData.EnsureExists();
         PlayerData.OnMoneyChanged += UpdateMoneyUI;
         PlayerData.OnTokensChanged += UpdateTokensUI;
+        UpdateMoneyUI(PlayerData.money);
+        UpdateTokensUI(PlayerData.tokens);
     }
 
     void OnDisable()
@@ -21,12 +24,22 @@ public class InventoryHUD : MonoBehaviour
     // --- ADD THIS START METHOD ---
     void Start()
     {
+        PlayerData.EnsureExists();
         // Fetch the current static values immediately when the scene loads
         // so the UI isn't blank before the first event fires!
         UpdateMoneyUI(PlayerData.money);
         UpdateTokensUI(PlayerData.tokens);
     }
 
-    void UpdateMoneyUI(int val) => moneyText.text = $"Money: ${val}";
-    void UpdateTokensUI(int val) => tokensText.text = $"Tokens: {val}";
+    void UpdateMoneyUI(int val)
+    {
+        if (moneyText != null)
+            moneyText.text = $"Money: ${val}";
+    }
+
+    void UpdateTokensUI(int val)
+    {
+        if (tokensText != null)
+            tokensText.text = $"Tokens: {val}";
+    }
 }

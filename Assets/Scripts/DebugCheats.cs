@@ -5,12 +5,18 @@ public class DebugCheats : MonoBehaviour
 {
     void Update()
     {
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
         // Check if the 'M' key was pressed this frame
         if (Keyboard.current.mKey.wasPressedThisFrame)
         {
-            if (PlayerData.Instance != null)
+            PlayerData wallet = PlayerData.EnsureExists();
+            if (wallet != null)
             {
-                PlayerData.Instance.AddMoney(100);
+                wallet.AddMoney(100);
                 Debug.Log("Cheated: Added $100");
             }
         }
@@ -18,9 +24,10 @@ public class DebugCheats : MonoBehaviour
         // Check if the 'T' key was pressed this frame
         if (Keyboard.current.tKey.wasPressedThisFrame)
         {
-            if (PlayerData.Instance != null)
+            PlayerData wallet = PlayerData.EnsureExists();
+            if (wallet != null)
             {
-                PlayerData.Instance.AddTokens(10);
+                wallet.AddTokens(10);
                 Debug.Log("Cheated: Added 10 Tokens");
             }
         }

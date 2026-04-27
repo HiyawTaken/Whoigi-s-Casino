@@ -119,6 +119,118 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10030466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10030467}
+  - component: {fileID: 10030469}
+  - component: {fileID: 10030468}
+  m_Layer: 0
+  m_Name: Left Controller Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &10030467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10030466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 546723907}
+  m_Father: {fileID: 1422493843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &10030468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10030466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4c1268bc2c47e995bbc93e62f89abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControllerGrabber
+  inputSource: 4
+  grabThreshold: 0.55
+  releaseThreshold: 0.35
+  useTriggerAsFallback: 1
+  grabPointLocalOffset: {x: 0, y: 0, z: 0.055}
+  grabRadius: 0.75
+  useFloorGrabAssist: 1
+  floorGrabRadius: 1.5
+  floorGrabDownwardReach: 4
+  extendedGrabbableSearchRadius: 5
+  extendedGrabbableDownwardReach: 6
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  grabAnyRigidbody: 1
+  requireGrabbableTag: 1
+  grabbableTag: Grabbable
+  maxGrabMass: 20
+  showGrabPrompt: 1
+  promptText: Press Grip to pick up
+  promptRadius: 2
+  promptDownwardReach: 4
+  promptHeight: 0.12
+  promptColor: {r: 1, g: 1, b: 1, a: 1}
+  promptShadowColor: {r: 0, g: 0, b: 0, a: 0.8}
+  promptCharacterSize: 0.035
+  throwVelocityScale: 1
+  throwAngularVelocityScale: 1
+--- !u!114 &10030469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10030466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0befe19c34544d44faf9b1a7c9f130e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControllerVisual
+  isLeftHand: 1
+  inputSource: 4
+  followControllerPose: 1
+  positionOffset: {x: 0, y: -0.015, z: 0.055}
+  rotationOffset: {x: 35, y: 0, z: 0}
+  hideWhenControllerNotTracked: 1
+  handModelPrefab: {fileID: 919132149155446097, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+  modelRoot: {fileID: 546723907}
+  modelLocalPosition: {x: 0, y: 0, z: 0}
+  modelLocalEulerAngles: {x: 0, y: 0, z: 0}
+  modelLocalScale: {x: 1, y: 1, z: 1}
+  buildPrimitiveFallback: 0
+  skinColor: {r: 0.96, g: 0.8, b: 0.69, a: 1}
+  addGrabber: 1
+  requireGrabbableTag: 1
+  grabbableTag: Grabbable
+  openCurl: 0
+  triggerCurlScale: 1
+  gripCurlScale: 1
+  thumbTouchCurl: 0.35
+  proximalCurlEuler: {x: -70, y: 0, z: 0}
+  intermediateCurlEuler: {x: -80, y: 0, z: 0}
+  distalCurlEuler: {x: -55, y: 0, z: 0}
+  thumbProximalCurlEuler: {x: -35, y: 25, z: -20}
+  thumbIntermediateCurlEuler: {x: -55, y: 5, z: 0}
+  thumbDistalCurlEuler: {x: -45, y: 0, z: 0}
 --- !u!1 &62366605
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +261,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724932019}
-  - {fileID: 858064935}
+  - {fileID: 1422493843}
   m_Father: {fileID: 2021684269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &99788553
@@ -380,6 +492,68 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77721406bda61f2408af380890e003e0, type: 3}
+--- !u!1001 &336069010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1409969465}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+      propertyPath: m_Name
+      value: Right Hand Mesh
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+--- !u!4 &336069011 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+  m_PrefabInstance: {fileID: 336069010}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &338812594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -494,116 +668,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944eded0ebd3c984ebdc19b5aec74292, type: 3}
---- !u!1 &461460311
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 461460312}
-  - component: {fileID: 461460314}
-  - component: {fileID: 461460313}
-  m_Layer: 0
-  m_Name: Right Controller Hand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &461460312
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461460311}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1084464307}
-  m_Father: {fileID: 858064935}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &461460313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461460311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a4c1268bc2c47e995bbc93e62f89abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControllerGrabber
-  inputSource: 5
-  grabThreshold: 0.55
-  releaseThreshold: 0.35
-  useTriggerAsFallback: 1
-  grabPointLocalOffset: {x: 0, y: 0, z: 0.055}
-  grabRadius: 0.75
-  useFloorGrabAssist: 1
-  floorGrabRadius: 1.5
-  floorGrabDownwardReach: 4
-  grabbableLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  grabAnyRigidbody: 1
-  requireGrabbableTag: 1
-  grabbableTag: Grabbable
-  maxGrabMass: 20
-  showGrabPrompt: 1
-  promptText: Press Grip to pick up
-  promptRadius: 2
-  promptDownwardReach: 4
-  promptHeight: 0.12
-  promptColor: {r: 1, g: 1, b: 1, a: 1}
-  promptShadowColor: {r: 0, g: 0, b: 0, a: 0.8}
-  promptCharacterSize: 0.035
-  throwVelocityScale: 1
-  throwAngularVelocityScale: 1
---- !u!114 &461460314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461460311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0befe19c34544d44faf9b1a7c9f130e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControllerVisual
-  isLeftHand: 0
-  inputSource: 5
-  followControllerPose: 1
-  positionOffset: {x: 0, y: -0.015, z: 0.055}
-  rotationOffset: {x: 35, y: 0, z: 0}
-  hideWhenControllerNotTracked: 1
-  handModelPrefab: {fileID: 919132149155446097, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-  modelRoot: {fileID: 1084464307}
-  modelLocalPosition: {x: 0, y: 0, z: 0}
-  modelLocalEulerAngles: {x: 0, y: 0, z: 0}
-  modelLocalScale: {x: 1, y: 1, z: 1}
-  buildPrimitiveFallback: 0
-  skinColor: {r: 0.96, g: 0.8, b: 0.69, a: 1}
-  addGrabber: 1
-  requireGrabbableTag: 1
-  grabbableTag: Grabbable
-  openCurl: 0
-  triggerCurlScale: 1
-  gripCurlScale: 1
-  thumbTouchCurl: 0.35
-  proximalCurlEuler: {x: -70, y: 0, z: 0}
-  intermediateCurlEuler: {x: -80, y: 0, z: 0}
-  distalCurlEuler: {x: -55, y: 0, z: 0}
-  thumbProximalCurlEuler: {x: -35, y: 25, z: -20}
-  thumbIntermediateCurlEuler: {x: -55, y: 5, z: 0}
-  thumbDistalCurlEuler: {x: -45, y: 0, z: 0}
 --- !u!1 &481996852
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,6 +798,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &546723906
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 10030467}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+      propertyPath: m_Name
+      value: Left Hand Mesh
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+--- !u!4 &546723907 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
+  m_PrefabInstance: {fileID: 546723906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &630821227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1133,39 +1259,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77721406bda61f2408af380890e003e0, type: 3}
---- !u!1 &858064934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 858064935}
-  m_Layer: 0
-  m_Name: __ControllerHands
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &858064935
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858064934}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1874812784}
-  - {fileID: 461460312}
-  m_Father: {fileID: 62366606}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &945718072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,130 +1660,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77721406bda61f2408af380890e003e0, type: 3}
---- !u!1001 &1037969780
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1874812784}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-      propertyPath: m_Name
-      value: Left Hand Mesh
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
---- !u!4 &1037969781 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-  m_PrefabInstance: {fileID: 1037969780}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1084464306
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 461460312}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-      propertyPath: m_Name
-      value: Right Hand Mesh
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
---- !u!4 &1084464307 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
-  m_PrefabInstance: {fileID: 1084464306}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1109763464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,6 +1876,151 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944eded0ebd3c984ebdc19b5aec74292, type: 3}
+--- !u!1 &1409969464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409969465}
+  - component: {fileID: 1409969467}
+  - component: {fileID: 1409969466}
+  m_Layer: 0
+  m_Name: Right Controller Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1409969465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409969464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 336069011}
+  m_Father: {fileID: 1422493843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1409969466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409969464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4c1268bc2c47e995bbc93e62f89abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControllerGrabber
+  inputSource: 5
+  grabThreshold: 0.55
+  releaseThreshold: 0.35
+  useTriggerAsFallback: 1
+  grabPointLocalOffset: {x: 0, y: 0, z: 0.055}
+  grabRadius: 0.75
+  useFloorGrabAssist: 1
+  floorGrabRadius: 1.5
+  floorGrabDownwardReach: 4
+  extendedGrabbableSearchRadius: 5
+  extendedGrabbableDownwardReach: 6
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  grabAnyRigidbody: 1
+  requireGrabbableTag: 1
+  grabbableTag: Grabbable
+  maxGrabMass: 20
+  showGrabPrompt: 1
+  promptText: Press Grip to pick up
+  promptRadius: 2
+  promptDownwardReach: 4
+  promptHeight: 0.12
+  promptColor: {r: 1, g: 1, b: 1, a: 1}
+  promptShadowColor: {r: 0, g: 0, b: 0, a: 0.8}
+  promptCharacterSize: 0.035
+  throwVelocityScale: 1
+  throwAngularVelocityScale: 1
+--- !u!114 &1409969467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409969464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0befe19c34544d44faf9b1a7c9f130e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControllerVisual
+  isLeftHand: 0
+  inputSource: 5
+  followControllerPose: 1
+  positionOffset: {x: 0, y: -0.015, z: 0.055}
+  rotationOffset: {x: 35, y: 0, z: 0}
+  hideWhenControllerNotTracked: 1
+  handModelPrefab: {fileID: 919132149155446097, guid: e806d360aaa271841aba8159c64f7ae2, type: 3}
+  modelRoot: {fileID: 336069011}
+  modelLocalPosition: {x: 0, y: 0, z: 0}
+  modelLocalEulerAngles: {x: 0, y: 0, z: 0}
+  modelLocalScale: {x: 1, y: 1, z: 1}
+  buildPrimitiveFallback: 0
+  skinColor: {r: 0.96, g: 0.8, b: 0.69, a: 1}
+  addGrabber: 1
+  requireGrabbableTag: 1
+  grabbableTag: Grabbable
+  openCurl: 0
+  triggerCurlScale: 1
+  gripCurlScale: 1
+  thumbTouchCurl: 0.35
+  proximalCurlEuler: {x: -70, y: 0, z: 0}
+  intermediateCurlEuler: {x: -80, y: 0, z: 0}
+  distalCurlEuler: {x: -55, y: 0, z: 0}
+  thumbProximalCurlEuler: {x: -35, y: 25, z: -20}
+  thumbIntermediateCurlEuler: {x: -55, y: 5, z: 0}
+  thumbDistalCurlEuler: {x: -45, y: 0, z: 0}
+--- !u!1 &1422493842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1422493843}
+  m_Layer: 0
+  m_Name: __ControllerHands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1422493843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422493842}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 10030467}
+  - {fileID: 1409969465}
+  m_Father: {fileID: 62366606}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1594064517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2454,116 +2568,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1874812783
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1874812784}
-  - component: {fileID: 1874812786}
-  - component: {fileID: 1874812785}
-  m_Layer: 0
-  m_Name: Left Controller Hand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1874812784
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874812783}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1037969781}
-  m_Father: {fileID: 858064935}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1874812785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874812783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a4c1268bc2c47e995bbc93e62f89abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControllerGrabber
-  inputSource: 4
-  grabThreshold: 0.55
-  releaseThreshold: 0.35
-  useTriggerAsFallback: 1
-  grabPointLocalOffset: {x: 0, y: 0, z: 0.055}
-  grabRadius: 0.75
-  useFloorGrabAssist: 1
-  floorGrabRadius: 1.5
-  floorGrabDownwardReach: 4
-  grabbableLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  grabAnyRigidbody: 1
-  requireGrabbableTag: 1
-  grabbableTag: Grabbable
-  maxGrabMass: 20
-  showGrabPrompt: 1
-  promptText: Press Grip to pick up
-  promptRadius: 2
-  promptDownwardReach: 4
-  promptHeight: 0.12
-  promptColor: {r: 1, g: 1, b: 1, a: 1}
-  promptShadowColor: {r: 0, g: 0, b: 0, a: 0.8}
-  promptCharacterSize: 0.035
-  throwVelocityScale: 1
-  throwAngularVelocityScale: 1
---- !u!114 &1874812786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874812783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0befe19c34544d44faf9b1a7c9f130e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControllerVisual
-  isLeftHand: 1
-  inputSource: 4
-  followControllerPose: 1
-  positionOffset: {x: 0, y: -0.015, z: 0.055}
-  rotationOffset: {x: 35, y: 0, z: 0}
-  hideWhenControllerNotTracked: 1
-  handModelPrefab: {fileID: 919132149155446097, guid: c92727aee7290f7438ec55e146c85a9f, type: 3}
-  modelRoot: {fileID: 1037969781}
-  modelLocalPosition: {x: 0, y: 0, z: 0}
-  modelLocalEulerAngles: {x: 0, y: 0, z: 0}
-  modelLocalScale: {x: 1, y: 1, z: 1}
-  buildPrimitiveFallback: 0
-  skinColor: {r: 0.96, g: 0.8, b: 0.69, a: 1}
-  addGrabber: 1
-  requireGrabbableTag: 1
-  grabbableTag: Grabbable
-  openCurl: 0
-  triggerCurlScale: 1
-  gripCurlScale: 1
-  thumbTouchCurl: 0.35
-  proximalCurlEuler: {x: -70, y: 0, z: 0}
-  intermediateCurlEuler: {x: -80, y: 0, z: 0}
-  distalCurlEuler: {x: -55, y: 0, z: 0}
-  thumbProximalCurlEuler: {x: -35, y: 25, z: -20}
-  thumbIntermediateCurlEuler: {x: -55, y: 5, z: 0}
-  thumbDistalCurlEuler: {x: -45, y: 0, z: 0}
 --- !u!1 &1906211911
 GameObject:
   m_ObjectHideFlags: 0

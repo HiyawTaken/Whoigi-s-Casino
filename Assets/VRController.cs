@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 public class VRController : MonoBehaviour
@@ -6,6 +7,10 @@ public class VRController : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 3f;
     public float boostMultiplier = 2f;
+
+    [Header("Scene Movement Scale")]
+    public string fastSceneName = "Game";
+    public float fastSceneMoveMultiplier = 3f;
 
     [Header("Sprint")]
     public XRNode sprintInputSource = XRNode.LeftHand;
@@ -110,7 +115,8 @@ public class VRController : MonoBehaviour
         if (moveDirection.sqrMagnitude > 1f)
             moveDirection.Normalize();
 
-        float currentSpeed = IsSprinting(inputAxis) ? moveSpeed * sprintMultiplier : moveSpeed;
+        float currentSpeed = (IsSprinting(inputAxis) ? moveSpeed * sprintMultiplier : moveSpeed) *
+                             GetSceneMoveMultiplier();
         controller.Move(moveDirection * currentSpeed * Time.deltaTime);
     }
 
@@ -140,6 +146,12 @@ public class VRController : MonoBehaviour
 
         if (boostMultiplier <= 0f)
             boostMultiplier = 2f;
+
+        if (fastSceneMoveMultiplier <= 0f)
+            fastSceneMoveMultiplier = 3f;
+
+        if (string.IsNullOrEmpty(fastSceneName))
+            fastSceneName = "Game";
 
         inputSource = XRNode.LeftHand;
         sprintInputSource = XRNode.LeftHand;
@@ -171,6 +183,13 @@ public class VRController : MonoBehaviour
 
         if (jumpHeight <= 0f)
             jumpHeight = 1.5f;
+    }
+
+    private float GetSceneMoveMultiplier()
+    {
+        return SceneManager.GetActiveScene().name == fastSceneName
+            ? Mathf.Max(1f, fastSceneMoveMultiplier)
+            : 1f;
     }
 
     private bool IsControllerHand(XRNode node)

@@ -12,6 +12,7 @@ public class SlotMachineLeverGrab : ControllerGrabbable
     private ControllerGrabber m_ActiveGrabber;
     private Quaternion m_RestRotation;
     private bool m_HasRestRotation;
+    private const string DefaultLeverPrompt = "Press Grip to pull lever";
 
     private void Reset()
     {
@@ -31,6 +32,8 @@ public class SlotMachineLeverGrab : ControllerGrabbable
 
     private void Update()
     {
+        RefreshPromptText();
+
         if (leverPivot == null)
             return;
 
@@ -56,6 +59,7 @@ public class SlotMachineLeverGrab : ControllerGrabbable
 
         m_ActiveGrabber = grabber;
         leverPivot.localRotation = m_RestRotation * Quaternion.Euler(0f, 0f, pulledAngle);
+        RefreshPromptText();
 
         if (triggerSpinOnGrab && slotMachine != null)
             slotMachine.PullLever();
@@ -79,8 +83,7 @@ public class SlotMachineLeverGrab : ControllerGrabbable
         releaseVelocityScale = 0f;
         releaseAngularVelocityScale = 0f;
 
-        if (string.IsNullOrEmpty(promptOverride))
-            promptOverride = "Press Grip to pull lever";
+        RefreshPromptText();
 
         if (grabRadiusOverride <= 0f)
             grabRadiusOverride = 4f;
@@ -102,6 +105,21 @@ public class SlotMachineLeverGrab : ControllerGrabbable
 
         if (returnSpeed <= 0f)
             returnSpeed = 180f;
+    }
+
+    private void RefreshPromptText()
+    {
+        if (slotMachine == null)
+            slotMachine = GetComponentInParent<SlotMachineController>();
+
+        if (Application.isPlaying && slotMachine != null)
+        {
+            promptOverride = slotMachine.GetLeverPrompt();
+            return;
+        }
+
+        if (string.IsNullOrEmpty(promptOverride) || promptOverride == DefaultLeverPrompt)
+            promptOverride = "Press Grip to spin";
     }
 
     private void CacheRestRotation()
